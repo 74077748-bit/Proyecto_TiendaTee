@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0c0c0c">
+  <meta name="description" content="TiendaTee: camisetas de fútbol con diseños únicos, calidad y comodidad.">
+  <meta name="robots" content="index, follow">
+
+  <title>TiendaTee | Camisetas de fútbol</title>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="site-shell" id="inicio">
+
+    <!-- ======================================
+         CABECERA Y NAVEGACIÓN
+    ======================================= -->
+    <header class="site-header">
+      <div class="nav-inner">
+
+        <!-- LOGOTIPO -->
+        <a href="#inicio" class="brand" data-nav="inicio" aria-label="TiendaTee - Inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <path d="M16 10h16l8-4 2 8-6 3v21a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V17l-6-3 2-8 8 4z" fill="#fff"/>
+              <path d="M16 10h16" stroke="#e31c2d" stroke-width="2"/>
+            </svg>
+          </span>
+          <span class="brand-name">Tienda<span>Tee</span></span>
+        </a>
+
+        <!-- BOTÓN MENÚ MÓVIL -->
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mainNav"
+          aria-label="Abrir menú"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- MENÚ PRINCIPAL -->
+        <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+          <a href="#inicio" data-nav="inicio" class="nav-link is-active">Inicio</a>
+          <a href="#tienda" data-nav="tienda" class="nav-link">Tienda</a>
+          <a href="#categorias" data-nav="categorias" class="nav-link">Categorías</a>
+          <a href="#nosotros" data-nav="nosotros" class="nav-link">Nosotros</a>
+          <a href="#contacto" data-nav="contacto" class="nav-link">Contacto</a>
+        </nav>
+
+        <!-- BUSCADOR -->
+        <form class="search-form" id="searchForm" role="search">
+          <input
+            type="search"
+            id="searchInput"
+            name="q"
+            placeholder="Buscar camisetas..."
+            autocomplete="off"
+            aria-label="Buscar camisetas"
+          >
+          <button type="submit" aria-label="Buscar productos">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"/>
+              <path d="m20 20-3.5-3.5"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- CUENTA Y CARRITO -->
+        <div class="nav-actions">
+          <a
+            href="#cuenta"
+            class="icon-btn"
+            data-nav="cuenta"
+            aria-label="Mi cuenta"
+          >
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="1.7">
+              <circle cx="12" cy="8" r="3.4"/>
+              <path d="M5 19.2c.8-3.4 3.5-5.2 7-5.2s6.2 1.8 7 5.2"/>
+            </svg>
+          </a>
+
+          <button
+            class="icon-btn cart-btn"
+            id="cartOpen"
+            type="button"
+            aria-label="Abrir carrito"
+            aria-controls="cartDrawer"
+          >
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="1.7">
+              <circle cx="9" cy="20" r="1.4"/>
+              <circle cx="18" cy="20" r="1.4"/>
+              <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.3a2 2 0 0 0 2-1.5L21 8H7"/>
+            </svg>
+            <span class="cart-count" id="cartCount" aria-live="polite">0</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ======================================
+         CONTENIDO PRINCIPAL
+    ======================================= -->
+    <main id="contenido">
+
+      <!-- INICIO -->
+      <div data-view="inicio">
+
+        <!-- PORTADA -->
+        <section class="hero" aria-labelledby="heroTitle">
+          <div class="hero-copy">
+            <h1 id="heroTitle">Tu estilo,<br>en cada camiseta</h1>
+            <p>
+              Diseños únicos, calidad y comodidad
+              <br>
+              en un solo lugar
+            </p>
+            <a href="#tienda" class="btn-red" data-nav="tienda">
+              Ver tienda
+            </a>
+          </div>
+        </section>
+
+        <!-- BENEFICIOS -->
+        <section class="benefits" aria-label="Beneficios de TiendaTee">
+
+          <article class="benefit">
+            <span class="benefit-icon icon-black" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path d="M6 16h24v12H6zM30 23h8l6 8v5h-4.5a3.5 3.5 0 1 1-7 0H17.5a3.5 3.5 0 1 1-7 0H6v-8h24" fill="#fff"/>
+              </svg>
+            </span>
+            <div>
+              <h3>Envíos a todo el país</h3>
+              <p>Rápidos y seguros</p>
+            </div>
+          </article>
+
+          <article class="benefit">
+            <span class="benefit-icon icon-red" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path d="M24 6l14 6v12c0 9.5-6.2 16.6-14 20-7.8-3.4-14-10.5-14-20V12l14-6z" fill="#fff"/>
+                <path d="M17 24l5 5 9-10" stroke="#e31c2d" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <h3>Pagos seguros</h3>
+              <p>Tu compra protegida</p>
+            </div>
+          </article>
+
+          <article class="benefit">
+            <span class="benefit-icon icon-red" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path d="M24 6l4.8 12.4H42l-10.6 7.8 4.1 12.8L24 31.6 12.5 39l4.1-12.8L6 18.4h13.2L24 6z" fill="#fff"/>
+              </svg>
+            </span>
+            <div>
+              <h3>Productos de calidad</h3>
+              <p>Diseños que te representan</p>
+            </div>
+          </article>
+
+        </section>
+
+        <!-- CATEGORÍAS -->
+        <section class="section" id="categorias" aria-labelledby="catTitle">
+          <h2 id="catTitle">Categorías destacadas</h2>
+
+          <div class="category-grid">
+
+            <button class="paper-card category-card" type="button" data-filter="hombres" aria-label="Ver camisetas para hombres">
+              <img src="assets/cat-hombres.jpg" alt="Camisetas para hombres" width="220" height="260" loading="lazy">
+              <span>Hombres</span>
+            </button>
+
+            <button class="paper-card category-card" type="button" data-filter="mujeres" aria-label="Ver camisetas para mujeres">
+              <img src="assets/cat-mujeres.jpg" alt="Camisetas para mujeres" width="220" height="260" loading="lazy">
+              <span>Mujeres</span>
+            </button>
+
+            <button class="paper-card category-card" type="button" data-filter="ninos" aria-label="Ver camisetas para niños">
+              <img src="assets/cat-ninos.jpg" alt="Camisetas infantiles" width="220" height="260" loading="lazy">
+              <span>Niños</span>
+            </button>
+
+            <button class="paper-card category-card" type="button" data-filter="estilos" aria-label="Ver camisetas de estilo urbano">
+              <img src="assets/cat-estilos.jpg" alt="Camisetas de estilo urbano" width="220" height="260" loading="lazy">
+              <span>Estilos</span>
+            </button>
+
+            <button class="paper-card category-card" type="button" data-filter="tematicas" aria-label="Ver camisetas temáticas">
+              <img src="assets/cat-tematicas.jpg" alt="Camisetas temáticas" width="220" height="260" loading="lazy">
+              <span>Temáticas</span>
+            </button>
+
+          </div>
+        </section>
+
+        <!-- PRODUCTOS DESTACADOS -->
+        <section class="section bestsellers" aria-labelledby="bestTitle">
+          <h2 id="bestTitle">Productos más vendidos</h2>
+
+          <div class="carousel-wrap">
+            <button
+              class="carousel-arrow prev"
+              id="carouselPrev"
+              type="button"
+              aria-label="Producto anterior"
+            >‹</button>
+
+            <div class="carousel-viewport" id="carouselViewport">
+              <div class="carousel-track" id="carouselTrack"></div>
+            </div>
+
+            <button
+              class="carousel-arrow next"
+              id="carouselNext"
+              type="button"
+              aria-label="Producto siguiente"
+            >›</button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ======================================
+           TIENDA
+      ======================================= -->
+      <section class="section view-page" data-view="tienda" hidden>
+        <h2 id="shopTitle">Tienda</h2>
+
+        <p class="lead" id="shopLead">
+          Camisetas de diseño propio. No son productos oficiales de clubes ni marcas.
+        </p>
+
+        <div class="filters" id="filters" aria-label="Filtrar productos por categoría">
+          <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Todas</button>
+          <button type="button" class="chip" data-filter="hombres" aria-pressed="false">Hombres</button>
+          <button type="button" class="chip" data-filter="mujeres" aria-pressed="false">Mujeres</button>
+          <button type="button" class="chip" data-filter="ninos" aria-pressed="false">Niños</button>
+          <button type="button" class="chip" data-filter="estilos" aria-pressed="false">Estilos</button>
+          <button type="button" class="chip" data-filter="tematicas" aria-pressed="false">Temáticas</button>
+        </div>
+
+        <p class="results-meta" id="resultsMeta" aria-live="polite"></p>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <!-- ======================================
+           NOSOTROS
+      ======================================= -->
+      <section class="section view-page prose" data-view="nosotros" hidden>
+        <h2>Sobre nosotros</h2>
+
+        <p>
+          TiendaTee nació para quienes viven el fútbol como estilo.
+          Diseñamos camisetas inspiradas en el deporte, con cortes cómodos
+          y gráficos originales.
+        </p>
+
+        <p>
+          Nuestros productos son de diseño propio. No comercializamos
+          camisetas oficiales ni utilizamos marcas registradas de clubes
+          o fabricantes.
+        </p>
+
+        <p>
+          Trabajamos envíos a todo el Perú y ofrecemos un servicio cercano
+          para que elijas la camiseta que mejor te representa.
+        </p>
+      </section>
+
+      <!-- ======================================
+           CONTACTO
+      ======================================= -->
+      <section class="section view-page" data-view="contacto" hidden>
+        <h2>Contacto</h2>
+        <p class="lead">Escríbenos y te responderemos en horario de atención.</p>
+
+        <form class="form-card" id="contactForm" novalidate>
+          <label for="contactNombre">Nombre</label>
+          <input
+            id="contactNombre"
+            type="text"
+            name="nombre"
+            required
+            minlength="2"
+            autocomplete="name"
+            placeholder="Tu nombre"
+          >
+
+          <label for="contactEmail">Correo electrónico</label>
+          <input
+            id="contactEmail"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="tucorreo@ejemplo.com"
+          >
+
+          <label for="contactMensaje">Mensaje</label>
+          <textarea
+            id="contactMensaje"
+            name="mensaje"
+            rows="5"
+            required
+            minlength="10"
+            placeholder="¿En qué podemos ayudarte?"
+          ></textarea>
+
+          <p class="form-error" id="contactError" role="alert" hidden></p>
+
+          <button type="submit" class="btn-red">Enviar mensaje</button>
+        </form>
+      </section>
+
+      <!-- ======================================
+           MI CUENTA - DEMOSTRACIÓN
+      ======================================= -->
+      <section class="section view-page" data-view="cuenta" hidden>
+        <h2>Mi cuenta</h2>
+
+        <p class="notice">
+          Esta pantalla es una demostración de interfaz.
+          No existe autenticación real ni se almacenan contraseñas
+          en un servidor.
+        </p>
+
+        <div class="auth-tabs">
+          <button type="button" class="chip is-active" id="tabLogin">Iniciar sesión</button>
+          <button type="button" class="chip" id="tabRegister">Registrarme</button>
+        </div>
+
+        <form class="form-card" id="loginForm" novalidate>
+          <label for="loginEmail">Correo electrónico</label>
+          <input
+            id="loginEmail"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="tucorreo@ejemplo.com"
+          >
+
+          <label for="loginPassword">Contraseña</label>
+          <input
+            id="loginPassword"
+            type="password"
+            name="password"
+            required
+            minlength="6"
+            autocomplete="current-password"
+            placeholder="Mínimo 6 caracteres"
+          >
+
+          <p class="form-error" id="loginError" role="alert" hidden></p>
+
+          <button type="submit" class="btn-red">Entrar (demo)</button>
+        </form>
+
+        <form class="form-card" id="registerForm" novalidate hidden>
+          <label for="registerNombre">Nombre</label>
+          <input
+            id="registerNombre"
+            type="text"
+            name="nombre"
+            required
+            minlength="2"
+            autocomplete="name"
+            placeholder="Tu nombre"
+          >
+
+          <label for="registerEmail">Correo electrónico</label>
+          <input
+            id="registerEmail"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="tucorreo@ejemplo.com"
+          >
+
+          <label for="registerPassword">Contraseña</label>
+          <input
+            id="registerPassword"
+            type="password"
+            name="password"
+            required
+            minlength="6"
+            autocomplete="new-password"
+            placeholder="Mínimo 6 caracteres"
+          >
+
+          <p class="form-error" id="registerError" role="alert" hidden></p>
+
+          <button type="submit" class="btn-red">Crear cuenta (demo)</button>
+        </form>
+
+        <p class="demo-user" id="demoUser" aria-live="polite" hidden></p>
+      </section>
+
+      <!-- ======================================
+           ENVÍOS
+      ======================================= -->
+      <section class="section view-page prose" data-view="envios" hidden>
+        <h2>Envíos</h2>
+
+        <p>
+          Realizamos envíos a todo el Perú. Lima Metropolitana:
+          24 a 48 horas hábiles. Provincias: de 3 a 6 días hábiles,
+          según el destino.
+        </p>
+
+        <p>
+          El costo de envío se informa al confirmar el pedido.
+          Esta tienda es una demostración: no se despachan pedidos reales.
+        </p>
+      </section>
+
+      <!-- ======================================
+           DEVOLUCIONES
+      ======================================= -->
+      <section class="section view-page prose" data-view="devoluciones" hidden>
+        <h2>Devoluciones</h2>
+
+        <p>
+          Puedes solicitar un cambio por talla dentro de los 7 días,
+          siempre que la prenda esté sin uso y conserve sus etiquetas.
+        </p>
+
+        <p>
+          No aceptamos devoluciones de productos personalizados.
+          En esta demostración no se procesan devoluciones reales.
+        </p>
+      </section>
+
+      <!-- ======================================
+           TÉRMINOS Y CONDICIONES
+      ======================================= -->
+      <section class="section view-page prose" data-view="terminos" hidden>
+        <h2>Términos y condiciones</h2>
+
+        <p>
+          Este sitio es un catálogo de demostración. Los precios en soles
+          (S/) son referenciales y pueden editarse en el código.
+        </p>
+
+        <p>
+          TiendaTee no representa a clubes, selecciones ni marcas deportivas.
+          Los diseños mostrados son ilustrativos y genéricos.
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ======================================
+         PIE DE PÁGINA
+    ======================================= -->
+    <footer class="site-footer">
+      <div class="footer-grid">
+
+        <!-- MARCA -->
+        <div class="footer-brand">
+          <a href="#inicio" class="brand footer-logo" data-nav="inicio" aria-label="TiendaTee - Inicio">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none">
+                <path d="M16 10h16l8-4 2 8-6 3v21a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V17l-6-3 2-8 8 4z" fill="#fff"/>
+                <path d="M16 10h16" stroke="#e31c2d" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="brand-name">Tienda<span>Tee</span></span>
+          </a>
+
+          <p>Tu estilo, nuestra pasión</p>
+        </div>
+
+        <!-- ENLACES -->
+        <div>
+          <h3>Enlaces rápidos</h3>
+          <ul>
+            <li><a href="#inicio" data-nav="inicio">Inicio</a></li>
+            <li><a href="#tienda" data-nav="tienda">Tienda</a></li>
+            <li><a href="#categorias" data-nav="categorias">Categorías</a></li>
+            <li><a href="#cuenta" data-nav="cuenta">Mi cuenta</a></li>
+          </ul>
+        </div>
+
+        <!-- INFORMACIÓN -->
+        <div>
+          <h3>Información</h3>
+          <ul>
+            <li><a href="#nosotros" data-nav="nosotros">Sobre nosotros</a></li>
+            <li><a href="#envios" data-nav="envios">Envíos</a></li>
+            <li><a href="#devoluciones" data-nav="devoluciones">Devoluciones</a></li>
+            <li><a href="#terminos" data-nav="terminos">Términos y condiciones</a></li>
+          </ul>
+        </div>
+
+        <!-- REDES Y CONTACTO -->
+        <div class="footer-contact">
+          <h3>Redes sociales</h3>
+
+          <div class="socials">
+
+            <a
+              href="https://www.facebook.com/profile.php?id=61595296434392"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#fff" d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"/>
+              </svg>
+            </a>
+
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="5"/>
+                <circle cx="12" cy="12" r="3.5"/>
+                <circle cx="17.2" cy="6.8" r=".8" fill="#fff" stroke="none"/>
+              </svg>
+            </a>
+
+            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+                <path d="M14 4v10.2a3.2 3.2 0 1 1-2.2-3V8.4c1.4.9 2.6 1.4 4.2 1.5V6.6c-.8-.1-1.5-.4-2-.9V4z"/>
+              </svg>
+            </a>
+
+            <a
+              href="https://www.youtube.com/channel/UC90fnlJQnGxmZmpwCxyndoQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#fff" d="M22 12s0-3.2-.4-4.7c-.2-.8-.9-1.5-1.7-1.7C18.2 5.2 12 5.2 12 5.2s-6.2 0-7.9.4c-.8.2-1.5.9-1.7 1.7C2 8.8 2 12 2 12s0 3.2.4 4.7c.2 1.5.9 1.5 1.7 1.7 1.7.4 7.9.4 7.9.4s6.2 0 7.9-.4c.8-.2 1.5-.9 1.7-1.7.4-1.5.4-4.7.4-4.7zM10 15.5v-7l6 3.5-6 3.5z"/>
+              </svg>
+            </a>
+
+          </div>
+
+          <p class="sigue">Síguenos</p>
+
+          <h3>Contacto</h3>
+          <ul>
+            <li><a href="mailto:hola@tiendatee.pe">Correo electrónico</a></li>
+            <li><a href="https://wa.me/51900000000" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+            <li><a href="tel:+51900000000">Teléfono</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ======================================
+       PANEL DEL CARRITO
+  ======================================= -->
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside
+    class="cart-drawer"
+    id="cartDrawer"
+    aria-hidden="true"
+    aria-labelledby="cartTitle"
+    aria-modal="true"
+    role="dialog"
+  >
+    <div class="cart-head">
+      <h2 id="cartTitle">Tu carrito</h2>
+
+      <button
+        type="button"
+        class="close-btn"
+        id="cartClose"
+        aria-label="Cerrar carrito"
+      >×</button>
+    </div>
+
+    <div class="cart-items" id="cartItems" aria-live="polite"></div>
+
+    <div class="cart-foot">
+      <p class="subtotal">
+        Subtotal:
+        <strong id="cartSubtotal">S/ 0.00</strong>
+      </p>
+
+      <p class="demo-note">
+        Demostración: no se procesan pagos reales.
+      </p>
+
+      <button type="button" class="btn-red" id="checkoutBtn">
+        Continuar (demo)
+      </button>
+    </div>
+  </aside>
+
+  <!-- MENSAJES -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+</html>
