@@ -1,3 +1,24 @@
+const btn = document.querySelector('#btnTema');
+const contenedor = document.querySelector('#contenido');
+
+btn.addEventListener('click', () => {
+    if (btn.textContent === 'Oscurecer') {
+        contenedor.style.backgroundColor = 'black';
+        contenedor.style.color = 'white';
+        btn.textContent = 'Rojo';
+
+    } else if (btn.textContent === 'Rojo') {
+        contenedor.style.backgroundColor = 'red';
+        contenedor.style.color = 'white';
+        btn.textContent = 'Crema';
+
+    } else {
+        contenedor.style.backgroundColor = 'linen';
+        contenedor.style.color = 'black';
+        btn.textContent = 'Oscurecer';
+    }
+});
+
 
 /* ==========================================================
    TIENDATEE
@@ -18,7 +39,7 @@ const PRODUCTS = [
     price: 89.9,
     oldPrice: 119.9,
     category: "hombres",
-    image: "assets/prod-andina.jpg",
+    image: "assets/prod-andina.webp",
     bestseller: true,
     badge: "Oferta"
   },
@@ -27,7 +48,7 @@ const PRODUCTS = [
     name: "Camiseta Nocturna",
     price: 99.9,
     category: "hombres",
-    image: "assets/prod-nocturna.jpg",
+    image: "assets/prod-nocturna.webp",
     bestseller: true,
     badge: "Destacado"
   },
@@ -36,7 +57,7 @@ const PRODUCTS = [
     name: "Camiseta Blanca Clásica",
     price: 79.9,
     category: "hombres",
-    image: "assets/prod-blanca.jpg",
+    image: "assets/prod-blanca.webp",
     bestseller: true
   },
   {
@@ -44,7 +65,7 @@ const PRODUCTS = [
     name: "Camiseta Costa Azul",
     price: 94.9,
     category: "estilos",
-    image: "assets/prod-costa.jpg",
+    image: "assets/prod-costa.webp",
     bestseller: true
   },
   {
@@ -52,7 +73,7 @@ const PRODUCTS = [
     name: "Camiseta Rayas Urbanas",
     price: 109.9,
     category: "estilos",
-    image: "assets/prod-clasica.jpg",
+    image: "assets/prod-clasica.webp",
     bestseller: true,
     badge: "Destacado"
   },
@@ -61,7 +82,7 @@ const PRODUCTS = [
     name: "Camiseta Celeste Dama",
     price: 89.9,
     category: "mujeres",
-    image: "assets/prod-mujer.jpg",
+    image: "assets/prod-mujer.webp",
     bestseller: true
   },
   {
@@ -69,7 +90,7 @@ const PRODUCTS = [
     name: "Camiseta Junior Roja",
     price: 69.9,
     category: "ninos",
-    image: "assets/prod-nino.jpg",
+    image: "assets/prod-nino.webp",
     bestseller: true
   },
   {
@@ -77,7 +98,7 @@ const PRODUCTS = [
     name: "Camiseta Crema Temática",
     price: 84.9,
     category: "tematicas",
-    image: "assets/prod-tematica.jpg",
+    image: "assets/prod-tematica.webp",
     bestseller: true
   },
   {
@@ -85,7 +106,7 @@ const PRODUCTS = [
     name: "Camiseta Verde Bosque",
     price: 92.9,
     category: "mujeres",
-    image: "assets/prod-verde.jpg"
+    image: "assets/prod-verde.webp"
   },
   {
     id: "negra",
@@ -93,12 +114,12 @@ const PRODUCTS = [
     price: 99.9,
     oldPrice: 129.9,
     category: "hombres",
-    image: "assets/prod-negra.jpg",
+    image: "assets/prod-negra.webp",
     badge: "Oferta"
   }
 ];
 
-const FALLBACK_IMG = "assets/cat-hombres.jpg";
+const FALLBACK_IMG = "assets/cat-hombres.webp";
 const CART_KEY = "tiendatee-cart";
 const DEMO_USER_KEY = "tiendatee-demo-user";
 
@@ -1102,3 +1123,4 @@ if (document.readyState === "loading") {
 } else {
   init();
 }
+

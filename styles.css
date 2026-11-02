@@ -1,4 +1,25 @@
 
+#btnTema {
+    background-color: #ffffff;
+    color: #111111;
+    border: 2px solid #000000;
+    opacity: 0.5;
+    padding: 5px 25px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 20px;
+    z-index: 9999; 
+    position: fixed; 
+}
+
+#heroTitle {
+  color: #000000 !important;
+}
+
+ #notice{
+  color: #000000 !important;
+ }
+
 /* TiendaTee — diseño responsive: negro, rojo, beige y blanco */
 
 :root {
@@ -279,7 +300,7 @@ textarea:focus-visible {
       rgba(247, 243, 238, 0.12) 68%,
       transparent 78%
     ),
-    url("assets/hero-banner.jpg") right center / cover no-repeat;
+    url("assets/hero-banner.webp") right center / cover no-repeat;
 }
 
 .hero-copy {
@@ -634,12 +655,8 @@ textarea:focus-visible {
   color: #333;
 }
 
-.notice {
-  padding: 10px 14px;
-  border: 1px solid #e6d089;
-  border-radius: 8px;
-  background: #fff3cd;
-}
+
+
 
 .form-card {
   display: grid;
@@ -689,7 +706,7 @@ textarea:focus-visible {
 
 .site-footer {
   padding: 36px 6% 48px;
-  background: #111 url("assets/footer-texture.jpg") center / cover;
+  background: #111 url("assets/footer-texture.webp") center / cover;
   color: #eee;
 }
 
