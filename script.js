@@ -12,12 +12,6 @@
 
 const btn = document.querySelector('#btnTema');
 const contenedor = document.querySelector('#contenido');
-
-const cabecera = document.querySelector('.site-header');
-const footer = document.querySelector('.site-footer');
-const btn = document.querySelector('#btnTema');
-const contenedor = document.querySelector('#contenido');
-
 btn.addEventListener('click', () => {
 
     if (btn.textContent === 'Oscurecer') {
