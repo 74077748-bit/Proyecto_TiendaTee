@@ -1,7 +1,5 @@
 
 
-
-
 /* ==========================================================
    TIENDATEE
    Catálogo, buscador, filtros, carrusel y carrito.
@@ -12,30 +10,23 @@
 
 const btn = document.querySelector('#btnTema');
 const contenedor = document.querySelector('#contenido');
-btn.addEventListener('click', () => {
 
+btn.addEventListener('click', () => {
     if (btn.textContent === 'Oscurecer') {
-        document.body.style.backgroundColor = 'black';
-        document.body.style.color = 'white';
         contenedor.style.backgroundColor = 'black';
         contenedor.style.color = 'white';
         btn.textContent = 'Rojo';
 
     } else if (btn.textContent === 'Rojo') {
-        document.body.style.backgroundColor = 'red';
-        document.body.style.color = 'white';
         contenedor.style.backgroundColor = 'red';
         contenedor.style.color = 'white';
         btn.textContent = 'Crema';
 
     } else {
-        document.body.style.backgroundColor = 'linen';
-        document.body.style.color = 'black';
         contenedor.style.backgroundColor = 'linen';
         contenedor.style.color = 'black';
         btn.textContent = 'Oscurecer';
     }
-
 });
 
 /* =========================
