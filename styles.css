@@ -300,7 +300,7 @@ textarea:focus-visible {
       rgba(247, 243, 238, 0.12) 68%,
       transparent 78%
     ),
-    url("assets/hero-baner.webp") right center / cover no-repeat;
+    url("assets/hero-banner.webp") right center / cover no-repeat;
 }
 
 .hero-copy {
@@ -702,6 +702,56 @@ textarea:focus-visible {
   margin-bottom: 14px;
 }
 
+.auth-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+/* CUENTA DE USUARIO CON SUPABASE */
+
+#authMessage {
+  max-width: 460px;
+  margin: 0 0 18px;
+  padding: 12px 15px;
+  border-left: 4px solid var(--red);
+  background: #fff;
+  color: #333;
+}
+
+#userAccount {
+  max-width: 460px;
+  padding: 22px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+#userAccount p {
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+
+#userName {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#userEmail {
+  color: var(--muted);
+}
+
+#userAccount button:disabled,
+.form-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-error {
+  overflow-wrap: anywhere;
+}
+
 /* PIE DE PÁGINA */
 
 .site-footer {
@@ -1046,7 +1096,7 @@ textarea:focus-visible {
         rgba(247, 243, 238, 0.82) 48%,
         rgba(247, 243, 238, 0.38) 100%
       ),
-      url("assets/hero-banner.jpg") center / cover no-repeat;
+      url("assets/hero-baner.webp") center / cover no-repeat;
   }
 
   .hero-copy {
@@ -1122,7 +1172,7 @@ textarea:focus-visible {
         rgba(247, 243, 238, 0.87) 65%,
         rgba(247, 243, 238, 0.55) 100%
       ),
-      url("assets/hero-banner.jpg") 60% center / cover no-repeat;
+      url("assets/hero-baner.webp") 60% center / cover no-repeat;
   }
 
   .hero-copy h1 {

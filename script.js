@@ -1,5 +1,4 @@
 
-
 /* ==========================================================
    TIENDATEE
    Catálogo, buscador, filtros, carrusel y carrito.
@@ -7,27 +6,39 @@
 ========================================================== */
 
 "use strict";
+// CONEXIÓN CON SUPABASE
+const SUPABASE_URL = "https://okszetvgoflpujbphopr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_iB0JmEqk8130zdWdaiyVfg_ESWGLCzm";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
 
 const btn = document.querySelector('#btnTema');
 const contenedor = document.querySelector('#contenido');
 
-btn.addEventListener('click', () => {
-    if (btn.textContent === 'Oscurecer') {
-        contenedor.style.backgroundColor = 'black';
-        contenedor.style.color = 'white';
-        btn.textContent = 'Rojo';
+if (btn && contenedor) {
+    btn.addEventListener('click', () => {
+        if (btn.textContent.trim() === 'Oscurecer') {
+            contenedor.style.backgroundColor = 'black';
+            contenedor.style.color = 'white';
+            btn.textContent = 'Rojo';
 
-    } else if (btn.textContent === 'Rojo') {
-        contenedor.style.backgroundColor = 'red';
-        contenedor.style.color = 'white';
-        btn.textContent = 'Crema';
+        } else if (btn.textContent.trim() === 'Rojo') {
+            contenedor.style.backgroundColor = 'red';
+            contenedor.style.color = 'white';
+            btn.textContent = 'Crema';
 
-    } else {
-        contenedor.style.backgroundColor = 'linen';
-        contenedor.style.color = 'black';
-        btn.textContent = 'Oscurecer';
-    }
-});
+        } else {
+            contenedor.style.backgroundColor = 'linen';
+            contenedor.style.color = 'black';
+            btn.textContent = 'Oscurecer';
+        }
+    });
+}
 
 /* =========================
    1. PRODUCTOS
@@ -122,7 +133,7 @@ const PRODUCTS = [
 
 const FALLBACK_IMG = "assets/cat-hombres.webp";
 const CART_KEY = "tiendatee-cart";
-const DEMO_USER_KEY = "tiendatee-demo-user";
+
 
 const CATEGORY_LABELS = {
   all: "Todas",
@@ -271,21 +282,56 @@ function productCard(product, compact = false) {
    6. FILTROS Y BÚSQUEDA
 ========================= */
 
+
+function normalizeText(text) {
+  return String(text || "")
+    .toLocaleLowerCase("es")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
 function filteredProducts() {
-  const query = state.query.trim().toLocaleLowerCase("es");
+  const query = normalizeText(state.query);
+
+  const stopWords = [
+    "para", "de", "del", "la", "el",
+    "las", "los", "una", "un", "con"
+  ];
+
+  const searchWords = query
+    .split(/\s+/)
+    .filter(word => word && !stopWords.includes(word));
+
+  const categoryKeywords = {
+    hombres: "hombre hombres masculino varon caballero",
+    mujeres: "mujer mujeres femenino dama",
+    ninos: "nino ninos infantil junior niño niños",
+    estilos: "estilo estilos urbano urbana casual",
+    tematicas: "tematica tematicas especial especiales"
+  };
 
   return PRODUCTS.filter((product) => {
     const matchesCategory =
       state.filter === "all" ||
       product.category === state.filter;
 
+    const searchableText = normalizeText([
+      product.name,
+      product.category,
+      CATEGORY_LABELS[product.category],
+      categoryKeywords[product.category],
+      "camiseta camisetas polo polos ropa futbol futbolera deportiva"
+    ].join(" "));
+
     const matchesQuery =
       !query ||
-      product.name.toLocaleLowerCase("es").includes(query);
+      searchWords.every(word => searchableText.includes(word));
 
     return matchesCategory && matchesQuery;
   });
 }
+
 
 function renderShop() {
   const grid = document.getElementById("productGrid");
@@ -769,33 +815,57 @@ function validateForm(form, errorElement) {
   return true;
 }
 
-function showDemoUser() {
-  const box = document.getElementById("demoUser");
 
-  if (!box) return;
+async function showDemoUser() {
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const userAccount = document.getElementById("userAccount");
+  const userName = document.getElementById("userName");
+  const userEmail = document.getElementById("userEmail");
+  const authMessage = document.getElementById("authMessage");
+  const authTabs = document.querySelector(".auth-tabs");
 
   try {
-    const raw = localStorage.getItem(DEMO_USER_KEY);
+    const { data, error } =
+      await supabaseClient.auth.getSession();
 
-    if (!raw) {
-      box.hidden = true;
-      return;
+    if (error) throw error;
+
+    const user = data.session?.user;
+
+    if (user) {
+      loginForm.hidden = true;
+      registerForm.hidden = true;
+      authTabs.hidden = true;
+      userAccount.hidden = false;
+
+      userName.textContent =
+        `Bienvenido, ${user.user_metadata?.nombre || "usuario"}`;
+
+      userEmail.textContent = user.email || "";
+
+      authMessage.textContent =
+        "Has iniciado sesión correctamente en TiendaTee.";
+
+    } else {
+      userAccount.hidden = true;
+      loginForm.hidden = false;
+      registerForm.hidden = true;
+      authTabs.hidden = false;
+
+      userName.textContent = "";
+      userEmail.textContent = "";
+
+      document.getElementById("tabLogin").classList.add("is-active");
+      document.getElementById("tabRegister").classList.remove("is-active");
+
+      authMessage.textContent =
+        "Inicia sesión o crea tu cuenta en TiendaTee.";
     }
 
-    const user = JSON.parse(raw);
-
-    if (!user || !user.email) {
-      box.hidden = true;
-      return;
-    }
-
-    box.textContent =
-      `Demo activa: ${user.nombre ? user.nombre + " · " : ""}${user.email}`;
-
-    box.hidden = false;
   } catch (error) {
-    console.warn("No se pudo recuperar el usuario de demostración.");
-    box.hidden = true;
+    console.error("Error al consultar la sesión:", error);
+    showToast("No se pudo comprobar tu sesión.");
   }
 }
 
@@ -961,24 +1031,41 @@ function bindEvents() {
     }
   });
 
-  /* Contacto */
-  const contactForm = document.getElementById("contactForm");
+ /* Contacto */
+const contactForm = document.getElementById("contactForm");
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+if (contactForm) {
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      const errorElement = document.getElementById("contactError");
+    const errorElement = document.getElementById("contactError");
 
-      if (!validateForm(contactForm, errorElement)) return;
+    if (!validateForm(contactForm, errorElement)) return;
 
-      showToast(
-        "Mensaje validado. Esta demostración no lo envía a un servidor."
-      );
+    const nombre = contactForm.elements.nombre.value.trim();
+    const email = contactForm.elements.email.value.trim();
+    const mensaje = contactForm.elements.mensaje.value.trim();
 
+    try {
+      const { error } = await supabaseClient
+        .from("Mensajes")
+        .insert([{ nombre, email, mensaje }]);
+
+      if (error) throw error;
+
+      showToast("¡Mensaje enviado correctamente!");
       contactForm.reset();
-    });
-  }
+
+    } catch (error) {
+      console.error("Error de Supabase:", error);
+
+      errorElement.textContent =
+        "No se pudo enviar el mensaje. Inténtalo nuevamente.";
+
+      errorElement.hidden = false;
+    }
+  });
+}
 
   /* Pestañas de cuenta */
   const tabLogin = document.getElementById("tabLogin");
@@ -1004,9 +1091,10 @@ function bindEvents() {
     });
   }
 
-  /* Inicio de sesión de demostración */
+ 
+  /* INICIO DE SESIÓN REAL CON SUPABASE */
   if (loginForm) {
-    loginForm.addEventListener("submit", (event) => {
+    loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const errorElement = document.getElementById("loginError");
@@ -1014,46 +1102,130 @@ function bindEvents() {
       if (!validateForm(loginForm, errorElement)) return;
 
       const email = loginForm.elements.email.value.trim();
+      const password = loginForm.elements.password.value;
+
+      const submitButton = loginForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = "Ingresando...";
 
       try {
-        localStorage.setItem(
-          DEMO_USER_KEY,
-          JSON.stringify({ email })
-        );
-      } catch (error) {
-        showToast("No se pudo guardar la sesión de demostración.");
-        return;
-      }
+        const { error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
 
-      showDemoUser();
-      showToast("Sesión de demostración iniciada.");
+        if (error) throw error;
+
+        await showDemoUser();
+        showToast("¡Bienvenido a TiendaTee!");
+
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        errorElement.textContent = "No se pudo iniciar sesión. Verifica tu correo y contraseña.";
+        errorElement.hidden = false;
+
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Iniciar sesión";
+      }
     });
   }
 
-  /* Registro de demostración */
-  if (registerForm) {
-    registerForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+  
+/* REGISTRO REAL CON SUPABASE */
+if (registerForm) {
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      const errorElement = document.getElementById("registerError");
+    const errorElement = document.getElementById("registerError");
 
-      if (!validateForm(registerForm, errorElement)) return;
+    if (!validateForm(registerForm, errorElement)) return;
 
-      const nombre = registerForm.elements.nombre.value.trim();
-      const email = registerForm.elements.email.value.trim();
+    const nombre = registerForm.elements.nombre.value.trim();
+    const email = registerForm.elements.email.value.trim();
+    const password = registerForm.elements.password.value;
 
-      try {
-        localStorage.setItem(
-          DEMO_USER_KEY,
-          JSON.stringify({ nombre, email })
-        );
-      } catch (error) {
-        showToast("No se pudo guardar el registro de demostración.");
-        return;
+    const submitButton = registerForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Creando cuenta...";
+
+    errorElement.hidden = true;
+    errorElement.textContent = "";
+
+    try {
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { nombre }
+        }
+      });
+
+      if (error) throw error;
+
+      // Comprobar si Supabase detectó un correo ya registrado.
+      if (data.user && data.user.identities?.length === 0) {
+        throw new Error("Este correo ya está registrado. Inicia sesión.");
       }
 
-      showDemoUser();
-      showToast("Registro de demostración completado.");
+      if (!data.user) {
+        throw new Error("No se pudo crear la cuenta. Inténtalo nuevamente.");
+      }
+
+      // Cerrar la sesión automática para que el usuario ingrese manualmente.
+      if (data.session) {
+        const { error: logoutError } =
+          await supabaseClient.auth.signOut();
+
+        if (logoutError) throw logoutError;
+      }
+
+      registerForm.reset();
+
+      // Volver a la pestaña de inicio de sesión.
+      const tabLogin = document.getElementById("tabLogin");
+
+      if (tabLogin) {
+        tabLogin.click();
+      }
+
+      await showDemoUser();
+
+      document.getElementById("authMessage").textContent =
+        "¡Registro exitoso! Ahora inicia sesión con tu correo y contraseña.";
+
+      showToast("¡Registro exitoso! Ahora inicia sesión.");
+
+    } catch (error) {
+      console.error("Error al registrarse:", error);
+      errorElement.textContent = error.message;
+      errorElement.hidden = false;
+
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Crear mi cuenta";
+    }
+  });
+}
+
+
+  /* CERRAR SESIÓN */
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) throw error;
+
+        await showDemoUser();
+        showToast("Sesión cerrada correctamente.");
+
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+        showToast("No se pudo cerrar la sesión.");
+      }
     });
   }
 
@@ -1106,22 +1278,29 @@ function bindEvents() {
   }
 }
 
-/* =========================
-   13. INICIALIZACIÓN
+/* 13. INICIALIZACIÓN
 ========================= */
 
-function init() {
+async function init() {
   renderCarousel();
   renderShop();
   renderCart();
   bindEvents();
-  showDemoUser();
+
+  await showDemoUser();
+
+  supabaseClient.auth.onAuthStateChange(() => {
+    setTimeout(() => {
+      showDemoUser();
+    }, 0);
+  });
+
   routeFromHash();
 }
+
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init, { once: true });
 } else {
   init();
 }
-

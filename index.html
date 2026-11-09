@@ -333,90 +333,107 @@
         </form>
       </section>
 
-      <!-- ======================================
-           MI CUENTA - DEMOSTRACIÓN
-      ======================================= -->
-      <section class="section view-page" data-view="cuenta" hidden>
-        <h2>Mi cuenta</h2>
+      
+<!-- ======================================
+     MI CUENTA - SUPABASE AUTH
+======================================= -->
+<section class="section view-page" data-view="cuenta" hidden>
+  <h2>Mi cuenta</h2>
 
-        <p class="notice">
-          Esta pantalla es una demostración de interfaz.
-          No existe autenticación real ni se almacenan contraseñas
-          en un servidor.
-        </p>
+  <p class="notice" id="authMessage" role="status" aria-live="polite">
+    Inicia sesión o crea tu cuenta en TiendaTee.
+  </p>
 
-        <div class="auth-tabs">
-          <button type="button" class="chip is-active" id="tabLogin">Iniciar sesión</button>
-          <button type="button" class="chip" id="tabRegister">Registrarme</button>
-        </div>
+  <div class="auth-tabs">
+    <button type="button" class="chip is-active" id="tabLogin">
+      Iniciar sesión
+    </button>
+    <button type="button" class="chip" id="tabRegister">
+      Registrarme
+    </button>
+  </div>
 
-        <form class="form-card" id="loginForm" novalidate>
-          <label for="loginEmail">Correo electrónico</label>
-          <input
-            id="loginEmail"
-            type="email"
-            name="email"
-            required
-            autocomplete="email"
-            placeholder="tucorreo@ejemplo.com"
-          >
+  <!-- INICIAR SESIÓN -->
+  <form class="form-card" id="loginForm" novalidate>
+    <label for="loginEmail">Correo electrónico</label>
+    <input
+      id="loginEmail"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="tucorreo@ejemplo.com"
+    >
 
-          <label for="loginPassword">Contraseña</label>
-          <input
-            id="loginPassword"
-            type="password"
-            name="password"
-            required
-            minlength="6"
-            autocomplete="current-password"
-            placeholder="Mínimo 6 caracteres"
-          >
+    <label for="loginPassword">Contraseña</label>
+    <input
+      id="loginPassword"
+      type="password"
+      name="password"
+      required
+      minlength="8"
+      autocomplete="current-password"
+      placeholder="Tu contraseña"
+    >
 
-          <p class="form-error" id="loginError" role="alert" hidden></p>
+    <p class="form-error" id="loginError" role="alert" hidden></p>
 
-          <button type="submit" class="btn-red">Entrar (demo)</button>
-        </form>
+    <button type="submit" class="btn-red">
+      Iniciar sesión
+    </button>
+  </form>
 
-        <form class="form-card" id="registerForm" novalidate hidden>
-          <label for="registerNombre">Nombre</label>
-          <input
-            id="registerNombre"
-            type="text"
-            name="nombre"
-            required
-            minlength="2"
-            autocomplete="name"
-            placeholder="Tu nombre"
-          >
+  <!-- REGISTRO -->
+  <form class="form-card" id="registerForm" novalidate hidden>
+    <label for="registerNombre">Nombre</label>
+    <input
+      id="registerNombre"
+      type="text"
+      name="nombre"
+      required
+      minlength="2"
+      autocomplete="name"
+      placeholder="Tu nombre"
+    >
 
-          <label for="registerEmail">Correo electrónico</label>
-          <input
-            id="registerEmail"
-            type="email"
-            name="email"
-            required
-            autocomplete="email"
-            placeholder="tucorreo@ejemplo.com"
-          >
+    <label for="registerEmail">Correo electrónico</label>
+    <input
+      id="registerEmail"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="tucorreo@ejemplo.com"
+    >
 
-          <label for="registerPassword">Contraseña</label>
-          <input
-            id="registerPassword"
-            type="password"
-            name="password"
-            required
-            minlength="6"
-            autocomplete="new-password"
-            placeholder="Mínimo 6 caracteres"
-          >
+    <label for="registerPassword">Contraseña</label>
+    <input
+      id="registerPassword"
+      type="password"
+      name="password"
+      required
+      minlength="8"
+      autocomplete="new-password"
+      placeholder="Mínimo 8 caracteres"
+    >
 
-          <p class="form-error" id="registerError" role="alert" hidden></p>
+    <p class="form-error" id="registerError" role="alert" hidden></p>
 
-          <button type="submit" class="btn-red">Crear cuenta (demo)</button>
-        </form>
+    <button type="submit" class="btn-red">
+      Crear mi cuenta
+    </button>
+  </form>
 
-        <p class="demo-user" id="demoUser" aria-live="polite" hidden></p>
-      </section>
+  <!-- USUARIO AUTENTICADO -->
+  <div id="userAccount" hidden>
+    <p id="userName"></p>
+    <p id="userEmail"></p>
+    <button type="button" class="btn-red" id="logoutBtn">
+      Cerrar sesión
+    </button>
+  </div>
+</section>
+
 
       <!-- ======================================
            ENVÍOS
@@ -561,7 +578,7 @@
 
           <h3>Contacto</h3>
           <ul>
-            <li><a href="mailto:hola@tiendatee.pe">Correo electrónico</a></li>
+            <li><a href="mailto:74077748@idexpasco.edu.pe"> 74077748@idexpasco.edu.pe</a></li>
             <li><a href="https://wa.me/51900000000" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             <li><a href="tel:+51900000000">Teléfono</a></li>
           </ul>
@@ -617,8 +634,9 @@
   <!-- MENSAJES -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <!-- JAVASCRIPT -->
-  <script src="script.js"></script>
+ <!-- JAVASCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
