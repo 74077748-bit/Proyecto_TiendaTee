@@ -44,95 +44,40 @@ if (btn && contenedor) {
    1. PRODUCTOS
 ========================= */
 
-const PRODUCTS = [
-  {
-    id: "andina",
-    name: "Camiseta Andina 10",
-    price: 89.9,
-    oldPrice: 119.9,
-    category: "hombres",
-    image: "assets/prod-andina.webp",
-    bestseller: true,
-    badge: "Oferta"
-  },
-  {
-    id: "nocturna",
-    name: "Camiseta Nocturna",
-    price: 99.9,
-    category: "hombres",
-    image: "assets/prod-nocturna.webp",
-    bestseller: true,
-    badge: "Destacado"
-  },
-  {
-    id: "blanca",
-    name: "Camiseta Blanca Clásica",
-    price: 79.9,
-    category: "hombres",
-    image: "assets/prod-blanca.webp",
-    bestseller: true
-  },
-  {
-    id: "costa",
-    name: "Camiseta Costa Azul",
-    price: 94.9,
-    category: "estilos",
-    image: "assets/prod-costa.webp",
-    bestseller: true
-  },
-  {
-    id: "clasica",
-    name: "Camiseta Rayas Urbanas",
-    price: 109.9,
-    category: "estilos",
-    image: "assets/prod-clasica.webp",
-    bestseller: true,
-    badge: "Destacado"
-  },
-  {
-    id: "mujer",
-    name: "Camiseta Celeste Dama",
-    price: 89.9,
-    category: "mujeres",
-    image: "assets/prod-mujer.webp",
-    bestseller: true
-  },
-  {
-    id: "nino",
-    name: "Camiseta Junior Roja",
-    price: 69.9,
-    category: "ninos",
-    image: "assets/prod-nino.webp",
-    bestseller: true
-  },
-  {
-    id: "tematica",
-    name: "Camiseta Crema Temática",
-    price: 84.9,
-    category: "tematicas",
-    image: "assets/prod-tematica.webp",
-    bestseller: true
-  },
-  {
-    id: "verde",
-    name: "Camiseta Verde Bosque",
-    price: 92.9,
-    category: "mujeres",
-    image: "assets/prod-verde.webp"
-  },
-  {
-    id: "negra",
-    name: "Camiseta Negra Oro",
-    price: 99.9,
-    oldPrice: 129.9,
-    category: "hombres",
-    image: "assets/prod-negra.webp",
-    badge: "Oferta"
-  }
-];
+let PRODUCTS = [];
 
 const FALLBACK_IMG = "assets/cat-hombres.webp";
 const CART_KEY = "tiendatee-cart";
+
+// CARGAR PRODUCTOS DESDE SUPABASE
+async function loadProducts() {
+  const { data, error } = await supabaseClient
+    .from("Productos")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Error al cargar productos:", error);
+    showToast("No se pudieron cargar los productos.");
+    return false;
+  }
+
+  PRODUCTS = data.map((product) => ({
+    id: String(product.id),
+    name: product.nombre,
+    price: Number(product.precio),
+    stock: Number(product.stock) || 0,
+    oldPrice: product.precio_anterior == null
+      ? null
+      : Number(product.precio_anterior),
+    category: product.categoria,
+    image: product.imagen,
+    bestseller: Boolean(product.destacado),
+    badge: product.etiqueta || ""
+  }));
+
+  return true;
+}
 
 
 const CATEGORY_LABELS = {
@@ -163,12 +108,13 @@ const state = {
   filter: "all",
   query: "",
   carouselIndex: 0,
-  cart: loadCart()
+  cart: []
 };
 
 /* =========================
    3. ALMACENAMIENTO
 ========================= */
+
 
 function loadCart() {
   try {
@@ -182,23 +128,33 @@ function loadCart() {
 
     return parsed
       .filter((item) => {
+        const product = PRODUCTS.find(
+          (product) => product.id === item?.id
+        );
+
         return (
-          item &&
-          typeof item.id === "string" &&
-          PRODUCTS.some((product) => product.id === item.id) &&
+          product &&
           Number.isInteger(item.qty) &&
-          item.qty > 0
+          item.qty > 0 &&
+          Number(product.stock) > 0
         );
       })
-      .map((item) => ({
-        id: item.id,
-        qty: item.qty
-      }));
+      .map((item) => {
+        const product = PRODUCTS.find(
+          (product) => product.id === item.id
+        );
+
+        return {
+          id: item.id,
+          qty: Math.min(item.qty, Number(product.stock))
+        };
+      });
   } catch (error) {
     console.warn("No se pudo recuperar el carrito:", error);
     return [];
   }
 }
+
 
 function saveCart() {
   try {
@@ -236,6 +192,7 @@ function attachImageFallbacks(container) {
    5. TARJETAS DE PRODUCTOS
 ========================= */
 
+
 function productCard(product, compact = false) {
   const badge = product.badge
     ? `<span class="badge">${product.badge}</span>`
@@ -244,6 +201,22 @@ function productCard(product, compact = false) {
   const oldPrice = product.oldPrice
     ? `<s>${money(product.oldPrice)}</s> `
     : "";
+
+  const stock = Number(product.stock) || 0;
+
+  let stockMessage = "";
+  let stockClass = "";
+
+  if (stock === 0) {
+    stockMessage = "Agotado";
+    stockClass = "stock-out";
+  } else if (stock <= 3) {
+    stockMessage = `¡Últimas unidades! (${stock} disponibles)`;
+    stockClass = "stock-low";
+  } else {
+    stockMessage = `${stock} unidades disponibles`;
+    stockClass = "stock-available";
+  }
 
   return `
     <article
@@ -266,17 +239,23 @@ function productCard(product, compact = false) {
         ${oldPrice}${money(product.price)}
       </p>
 
+      <p class="stock-status ${stockClass}">
+        ${stockMessage}
+      </p>
+
       <button
         type="button"
         class="btn-add"
         data-add="${product.id}"
         aria-label="Agregar ${product.name} al carrito"
+        ${stock === 0 ? "disabled" : ""}
       >
-        Agregar al carrito
+        ${stock === 0 ? "Agotado" : "Agregar al carrito"}
       </button>
     </article>
   `;
 }
+
 
 /* =========================
    6. FILTROS Y BÚSQUEDA
@@ -598,14 +577,26 @@ function renderCart() {
   attachImageFallbacks(container);
 }
 
+
 function addToCart(id) {
   const product = PRODUCTS.find((item) => item.id === id);
 
   if (!product) return;
 
+  const stock = Number(product.stock) || 0;
   const line = state.cart.find((item) => item.id === id);
 
+  if (stock <= 0) {
+    showToast("Este producto está agotado.");
+    return;
+  }
+
   if (line) {
+    if (line.qty >= stock) {
+      showToast(`Solo hay ${stock} unidades disponibles.`);
+      return;
+    }
+
     line.qty += 1;
   } else {
     state.cart.push({
@@ -622,13 +613,22 @@ function addToCart(id) {
 
 function changeQty(id, delta) {
   const line = state.cart.find((item) => item.id === id);
+  const product = PRODUCTS.find((item) => item.id === id);
 
-  if (!line) return;
+  if (!line || !product) return;
 
-  line.qty += delta;
+  const stock = Number(product.stock) || 0;
+  const newQty = line.qty + delta;
 
-  if (line.qty <= 0) {
+  if (newQty > stock) {
+    showToast(`Solo hay ${stock} unidades disponibles.`);
+    return;
+  }
+
+  if (newQty <= 0) {
     state.cart = state.cart.filter((item) => item.id !== id);
+  } else {
+    line.qty = newQty;
   }
 
   saveCart();
@@ -661,6 +661,7 @@ function openCart() {
     closeButton.focus();
   }
 }
+
 
 function closeCart() {
   const overlay = document.getElementById("overlay");
@@ -1282,6 +1283,10 @@ if (registerForm) {
 ========================= */
 
 async function init() {
+  await loadProducts();
+
+  state.cart = loadCart();
+
   renderCarousel();
   renderShop();
   renderCart();
